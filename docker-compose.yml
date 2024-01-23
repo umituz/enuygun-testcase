@@ -1,0 +1,132 @@
+version: '3.9'
+
+services:
+  backend:
+    container_name: 'backend'
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: password
+    ports:
+      - 8000:8000
+    depends_on:
+      - mysql
+    networks:
+      - app
+
+  frontend:
+    container_name: 'frontend'
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    command: npm start
+    networks:
+      - app
+
+  postgres:
+    container_name: "postgres"
+    image: postgres:latest
+    volumes:
+      - "./docker/volumes/postgres:/var/lib/postgres"
+    environment:
+      - POSTGRES_DB=laravel
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    networks:
+      - app
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+      retries: 3
+      timeout: 5s
+
+  phppgadmin:
+    container_name: 'phppgadmin'
+    image: 'dpage/pgadmin4'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'laravel@gmail.com'
+      PGADMIN_DEFAULT_PASSWORD: 'password'
+    ports:
+      - 8083:80
+    depends_on:
+      - postgres
+    networks:
+      - app
+
+  mysql:
+    container_name: 'mysql'
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 8889:3306
+    volumes:
+      - ./docker/volumes/mysql:/var/lib/mysql
+    networks:
+      - app
+
+  phpmyadmin:
+    container_name: 'phpmyadmin'
+    image: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 8080:80
+    depends_on:
+      - mysql
+    networks:
+      - app
+
+  redis:
+    container_name: 'redis'
+    image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - ./docker/volumes/redis:/data
+    networks:
+      - app
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: 'rabbitmq:management'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: '${RABBITMQ_DEFAULT_USER:-admin}'
+      RABBITMQ_DEFAULT_PASS: '${RABBITMQ_DEFAULT_PASS:-password}'
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker/volumes/mysql
+  redis:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./docker/volumes/redis
