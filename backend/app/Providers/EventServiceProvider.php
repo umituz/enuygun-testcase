@@ -27,7 +27,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        App::bindMethod(GetProviderApiDataJob::class . '@handle', fn ($job, $app) => $job->handle($app->make(ProviderSourceService::class)));
+        App::bindMethod(GetProviderApiDataJob::class.'@handle', fn ($job, $app) => $job->handle($app->make(ProviderSourceService::class)));
     }
 
     /**

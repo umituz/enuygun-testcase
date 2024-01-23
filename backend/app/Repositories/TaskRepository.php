@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Provider;
 use App\Models\Task;
 
 /**
@@ -10,7 +9,6 @@ use App\Models\Task;
  */
 class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 {
-
     private Task $task;
 
     public function __construct(Task $task)

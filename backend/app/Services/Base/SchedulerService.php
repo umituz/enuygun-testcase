@@ -3,7 +3,6 @@
 namespace App\Services\Base;
 
 use App\Enums\SchedulerEnum;
-use App\Models\Task;
 
 class SchedulerService
 {
@@ -17,7 +16,7 @@ class SchedulerService
         foreach ($tasks as $task) {
             $developer = $developers->where('id', $task->developer_id)->first();
 
-            if (!$developer) {
+            if (! $developer) {
                 continue;
             }
 

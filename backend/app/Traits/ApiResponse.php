@@ -12,8 +12,8 @@ trait ApiResponse
 {
     public function ok($data, $message = null): JsonResponse
     {
-        $message = $message ?? __("Your execution has been completed successfully");
+        $message = $message ?? __('Your execution has been completed successfully');
 
-        return response()->success($data, __($message), Response::HTTP_OK,);
+        return response()->success($data, __($message), Response::HTTP_OK);
     }
 }

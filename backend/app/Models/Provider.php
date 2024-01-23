@@ -8,6 +8,6 @@ class Provider extends BaseModel
         'name',
         'identifier',
         'url',
-        'status'
+        'status',
     ];
 }

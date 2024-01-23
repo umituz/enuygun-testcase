@@ -14,6 +14,7 @@ class BaseApiService
     use Logger;
 
     protected HttpService $httpService;
+
     protected DeveloperService $developerService;
 
     public function __construct(

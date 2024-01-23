@@ -53,5 +53,4 @@ class DeveloperRepository extends BaseRepository implements DeveloperRepositoryI
             dd($exception->getMessage());
         }
     }
-
 }

@@ -38,7 +38,7 @@ return [
         ],
         'provider2' => [
             'url' => env('PROVIDER_2_API_URL'),
-        ]
-    ]
+        ],
+    ],
 
 ];

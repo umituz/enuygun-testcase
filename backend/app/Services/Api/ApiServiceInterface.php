@@ -11,5 +11,4 @@ interface ApiServiceInterface
      * @return string[]
      */
     public function getData($provider);
-
 }
