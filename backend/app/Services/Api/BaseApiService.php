@@ -2,10 +2,9 @@
 
 namespace App\Services\Api;
 
-use App\Adapters\Log\FileLoggerAdapter;
-use App\Adapters\Log\LoggerAdapter;
 use App\Services\Base\DeveloperService;
 use App\Services\Http\HttpService;
+use App\Services\Log\LogService;
 use App\Traits\Logger;
 
 /**
@@ -13,21 +12,17 @@ use App\Traits\Logger;
  */
 class BaseApiService
 {
-    use Logger;
-
     protected HttpService $httpService;
-
     protected DeveloperService $developerService;
+    protected LogService $logService;
 
     public function __construct(
         HttpService $httpService,
-        DeveloperService $developerService
+        DeveloperService $developerService,
+        LogService $logService,
     ) {
         $this->httpService = $httpService;
         $this->developerService = $developerService;
-
-        $loggerAdapter = new LoggerAdapter();
-        //$fileLoggerAdapter = new FileLoggerAdapter(public_path('log.txt'));
-        $this->setLoggerAdapter($loggerAdapter);
+        $this->logService = $logService;
     }
 }

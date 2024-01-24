@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\SortingScope;
+use App\Observers\DeveloperObserver;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Developer extends BaseModel
@@ -12,6 +14,14 @@ class Developer extends BaseModel
         'email',
         'status',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new SortingScope);
+        static::observe(DeveloperObserver::class);
+    }
 
     public function tasks(): HasMany
     {

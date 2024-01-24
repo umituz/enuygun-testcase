@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\TaskObserver;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends BaseModel
@@ -12,6 +13,13 @@ class Task extends BaseModel
         'hour',
         'difficulty',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::observe(TaskObserver::class);
+    }
 
     public function developer(): BelongsTo
     {

@@ -14,7 +14,7 @@ trait Logger
      *
      * @throws \InvalidArgumentException
      */
-    public function setLoggerAdapter($loggerAdapter): void
+    public function setBaseLoggerAdapter($loggerAdapter): void
     {
         if (!method_exists($loggerAdapter, 'logError') ||
             !method_exists($loggerAdapter, 'logInfo')

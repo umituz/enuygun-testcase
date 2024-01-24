@@ -2,8 +2,7 @@
 
 namespace App\Services\Http;
 
-use App\Adapters\Log\LoggerAdapter;
-use App\Traits\Logger;
+use App\Services\Log\LogService;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
@@ -12,13 +11,11 @@ use Illuminate\Support\Facades\Http;
  */
 class HttpService
 {
-    use Logger;
+    private LogService $logService;
 
-    public function __construct()
+    public function __construct(LogService $logService)
     {
-        $loggerAdapter = new LoggerAdapter();
-        //$fileLoggerAdapter = new FileLoggerAdapter(public_path('log.txt'));
-        $this->setLoggerAdapter($loggerAdapter);
+        $this->logService = $logService;
     }
 
     public function get($url)
@@ -32,12 +29,14 @@ class HttpService
             $response = $this->get($url);
 
             if ($response->successful()) {
+                $this->logService->logInfo(__('HTTP Request is successful'));
+
                 return json_decode($response->body(), true);
             }
 
             return null;
         } catch (RequestException $exception) {
-            $this->logError($exception);
+            $this->logService->logError($exception);
 
             return null;
         }
