@@ -9,11 +9,6 @@ class SchedulerService
 {
     private $weeklyHours = SchedulerEnum::WEEKLY_WORKING_HOUR;
 
-    /**
-     * @param $developers
-     * @param $tasks
-     * @return array
-     */
     public function calculateWeeklyPlan($developers, $tasks): array
     {
         $totalDevelopers = count($developers);
