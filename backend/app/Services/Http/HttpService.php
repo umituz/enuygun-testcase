@@ -2,6 +2,7 @@
 
 namespace App\Services\Http;
 
+use App\Adapters\Log\LoggerAdapter;
 use App\Traits\Logger;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
@@ -12,6 +13,13 @@ use Illuminate\Support\Facades\Http;
 class HttpService
 {
     use Logger;
+
+    public function __construct()
+    {
+        $loggerAdapter = new LoggerAdapter();
+        //$fileLoggerAdapter = new FileLoggerAdapter(public_path('log.txt'));
+        $this->setLoggerAdapter($loggerAdapter);
+    }
 
     public function get($url)
     {
