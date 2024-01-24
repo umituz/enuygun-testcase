@@ -16,6 +16,6 @@ class DeveloperObserver
 
     public function created(Developer $developer)
     {
-        $this->logService->logInfo(__('Developer created: ') . $developer->id);
+        $this->logService->logInfo(__('Developer created: ').$developer->id);
     }
 }
