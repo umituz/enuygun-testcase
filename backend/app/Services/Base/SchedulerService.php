@@ -3,16 +3,21 @@
 namespace App\Services\Base;
 
 use App\Enums\SchedulerEnum;
-use App\Models\Task;
 
 class SchedulerService
 {
-    public function calculateWeeklyPlan($developers, $tasks)
+    private $weeklyHours = SchedulerEnum::WEEKLY_WORKING_HOUR;
+
+    /**
+     * @param $developers
+     * @param $tasks
+     * @return array
+     */
+    public function calculateWeeklyPlan($developers, $tasks): array
     {
         $totalDevelopers = count($developers);
-        $weeklyHours = $totalDevelopers * SchedulerEnum::WEEKLY_WORKING_HOUR;
+        $totalDevelopersWeeklyHours = $totalDevelopers * SchedulerEnum::WEEKLY_WORKING_HOUR;
         $weeklyPlan = [];
-        $remainingTasks = [];
 
         foreach ($tasks as $task) {
             $developer = $developers->where('id', $task->developer_id)->first();
@@ -25,18 +30,17 @@ class SchedulerService
                 continue;
             }
 
-            $dailyEffort = $task->hour / $weeklyHours;
+            $dailyEffort = $task->hour / $totalDevelopersWeeklyHours;
             $remainingHours = $task->hour;
 
             for ($i = 1; $i <= $totalDevelopers; $i++) {
-
                 $dailyPlan[$i][] = [
                     'developer' => $developer->full_name,
                     'task' => $task->name,
-                    'effort' => min($remainingHours, $dailyEffort * 45),
+                    'effort' => min($remainingHours, $dailyEffort * $this->weeklyHours),
                 ];
 
-                $remainingHours -= min($remainingHours, $dailyEffort * 45);
+                $remainingHours -= min($remainingHours, $dailyEffort * $this->weeklyHours);
             }
 
             $weeklyPlan[] = $dailyPlan;
@@ -44,7 +48,6 @@ class SchedulerService
 
         return [
             'total_weeks' => count($weeklyPlan),
-            'remaining_tasks' => count($remainingTasks),
             'weekly_plan' => $weeklyPlan,
         ];
     }
