@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Services\Base;
 
 use App\Enums\SchedulerEnum;
@@ -21,7 +20,7 @@ class SchedulerService
             foreach ($tasks as $task) {
                 $developer = $developers->where('id', $task->developer_id)->first();
 
-                if (!$developer || $task->hour <= 0) {
+                if (! $developer || $task->hour <= 0) {
                     continue;
                 }
 
