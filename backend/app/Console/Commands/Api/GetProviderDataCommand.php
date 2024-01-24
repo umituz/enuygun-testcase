@@ -70,7 +70,8 @@ class GetProviderDataCommand extends Command
             DatabaseConnectionService::getInstance();
         } catch (\Exception $e) {
             $this->error($e->getMessage());
-            return Command::FAILURE;
+
+            exit(Command::FAILURE);
         }
     }
 }

@@ -8,6 +8,10 @@ class DatabaseConnectionService
 {
     private static $instance;
 
+    public function __construct()
+    {
+    }
+
     /**
      * @throws \Exception
      */
