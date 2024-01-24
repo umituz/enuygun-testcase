@@ -31,7 +31,7 @@ class ProviderService
 
     public function providersList()
     {
-        $providers =  $this->providerRepository->get();
+        $providers = $this->providerRepository->get();
 
         return $providers->pluck('identifier')->toArray();
     }

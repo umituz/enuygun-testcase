@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends BaseModel
@@ -11,12 +10,9 @@ class Task extends BaseModel
         'developer_id',
         'name',
         'hour',
-        'difficulty'
+        'difficulty',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function developer(): BelongsTo
     {
         return $this->belongsTo(Developer::class);

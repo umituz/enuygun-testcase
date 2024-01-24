@@ -26,6 +26,7 @@ class HttpService
             if ($response->successful()) {
                 return json_decode($response->body(), true);
             }
+
             return null;
         } catch (RequestException $exception) {
             $this->logError($exception);

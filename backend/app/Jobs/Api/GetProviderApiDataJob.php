@@ -18,7 +18,6 @@ class GetProviderApiDataJob implements ShouldQueue
 
     private $provider;
 
-
     /**
      * Create a new job instance.
      */
@@ -32,8 +31,7 @@ class GetProviderApiDataJob implements ShouldQueue
      */
     public function handle(
         ProviderSourceService $providerSourceService
-    ): void
-    {
+    ): void {
         $providerSourceService->getData($this->provider);
     }
 }

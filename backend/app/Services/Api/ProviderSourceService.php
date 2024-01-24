@@ -28,7 +28,7 @@ class ProviderSourceService extends BaseApiService implements ApiServiceInterfac
 
             $this->developerService->saveWithTasks($items);
 
-            $this->logInfo(__( 'API data inserted successfully for : ' . $provider->name));
+            $this->logInfo(__('API data inserted successfully for : '.$provider->name));
 
             return true;
         } catch (Exception $exception) {

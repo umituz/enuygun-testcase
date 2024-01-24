@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Services\Provider\TaskProviderService;
 
 class ProvidersController extends BaseController

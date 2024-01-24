@@ -37,6 +37,5 @@ class ResponseServiceProvider extends ServiceProvider
             return $factory->json($response, $statusCode);
         });
 
-
     }
 }

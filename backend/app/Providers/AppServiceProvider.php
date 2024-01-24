@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Services\Provider\Provider1TaskService;
 use App\Services\Provider\Provider2TaskService;
 use App\Services\Provider\TaskProviderInterface;
-use App\Services\Provider\TaskProviderService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

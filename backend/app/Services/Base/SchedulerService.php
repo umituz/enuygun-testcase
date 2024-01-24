@@ -22,7 +22,7 @@ class SchedulerService
         foreach ($tasks as $task) {
             $developer = $developers->where('id', $task->developer_id)->first();
 
-            if (!$developer) {
+            if (! $developer) {
                 continue;
             }
 

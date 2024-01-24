@@ -8,6 +8,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/tasks', [TasksController::class, 'index']);
 Route::get('/providers', [ProvidersController::class, 'getProviderTaskList']);

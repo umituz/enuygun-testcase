@@ -46,7 +46,7 @@ class GetProviderDataCommand extends Command
 
         $item = $this->providerService->findBy('identifier', $identifier);
 
-        if (!$item) {
+        if (! $item) {
             $this->info(__('We could not find that provider.'));
 
             return Command::FAILURE;
