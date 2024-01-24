@@ -1,11 +1,11 @@
 import { Card } from "react-bootstrap";
 import React from "react";
 
-const TaskItemMolecule = ({ week, tasks }) => {
+const TaskItemMolecule = ({ tasks }) => {
     return (
         <Card>
             <Card.Header className="bg-primary text-white">
-                <h5 className="mb-0">Week {week}</h5>
+                <h5 className="mb-0">Developer Efforts in a Week</h5>
             </Card.Header>
             <Card.Body>
                 {tasks?.map((item, index) => (

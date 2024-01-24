@@ -13,9 +13,8 @@ class SchedulerService
         $totalDevelopers = count($developers);
         $totalDevelopersWeeklyHours = $totalDevelopers * $this->weeklyHours;
         $weeklyPlan = [];
+        $dailyPlan = [];
 
-        for ($weekNumber = 1; $weekNumber <= count($tasks); $weekNumber++) {
-            $dailyPlan = [];
 
             foreach ($tasks as $task) {
                 $developer = $developers->where('id', $task->developer_id)->first();
@@ -39,21 +38,17 @@ class SchedulerService
             }
 
             $weeklyPlan[] = [
-                'week_number' => $weekNumber,
                 'tasks' => $dailyPlan,
             ];
-        }
 
         $formattedWeeklyPlan = [];
         foreach ($weeklyPlan as $week) {
             $formattedWeeklyPlan[] = [
-                'week_number' => $week['week_number'],
                 'tasks' => array_unique($week['tasks'], SORT_REGULAR),
             ];
         }
 
         return [
-            'total_weeks' => count($formattedWeeklyPlan),
             'weekly_plan' => $formattedWeeklyPlan,
         ];
     }
