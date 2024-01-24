@@ -15,31 +15,30 @@ class SchedulerService
         $weeklyPlan = [];
         $dailyPlan = [];
 
+        foreach ($tasks as $task) {
+            $developer = $developers->where('id', $task->developer_id)->first();
 
-            foreach ($tasks as $task) {
-                $developer = $developers->where('id', $task->developer_id)->first();
-
-                if (! $developer || $task->hour <= 0) {
-                    continue;
-                }
-
-                $dailyEffort = $task->hour / $totalDevelopersWeeklyHours;
-                $remainingHours = $task->hour;
-
-                for ($i = 1; $i <= $totalDevelopers; $i++) {
-                    $dailyPlan[] = [
-                        'developer' => $developer->full_name,
-                        'task' => $task->name,
-                        'effort' => min($remainingHours, $dailyEffort * $this->weeklyHours),
-                    ];
-
-                    $remainingHours -= min($remainingHours, $dailyEffort * $this->weeklyHours);
-                }
+            if (! $developer || $task->hour <= 0) {
+                continue;
             }
 
-            $weeklyPlan[] = [
-                'tasks' => $dailyPlan,
-            ];
+            $dailyEffort = $task->hour / $totalDevelopersWeeklyHours;
+            $remainingHours = $task->hour;
+
+            for ($i = 1; $i <= $totalDevelopers; $i++) {
+                $dailyPlan[] = [
+                    'developer' => $developer->full_name,
+                    'task' => $task->name,
+                    'effort' => min($remainingHours, $dailyEffort * $this->weeklyHours),
+                ];
+
+                $remainingHours -= min($remainingHours, $dailyEffort * $this->weeklyHours);
+            }
+        }
+
+        $weeklyPlan[] = [
+            'tasks' => $dailyPlan,
+        ];
 
         $formattedWeeklyPlan = [];
         foreach ($weeklyPlan as $week) {
