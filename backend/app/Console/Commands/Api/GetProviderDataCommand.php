@@ -41,7 +41,7 @@ class GetProviderDataCommand extends Command
 
         $providerIdentifier = $this->argument('provider');
 
-        if (!$providerIdentifier) {
+        if (! $providerIdentifier) {
             $providers = $this->providerService->providersList();
 
             if ($providers == null) {
@@ -55,7 +55,7 @@ class GetProviderDataCommand extends Command
 
         $item = $this->providerService->findBy('identifier', $providerIdentifier);
 
-        if (!$item) {
+        if (! $item) {
             $this->error(__('We could not find that provider.'));
 
             return Command::FAILURE;
