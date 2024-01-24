@@ -4,6 +4,7 @@ namespace App\Console\Commands\Api;
 
 use App\Jobs\Api\GetProviderApiDataJob;
 use App\Services\Base\ProviderService;
+use App\Services\Database\DatabaseConnectionService;
 use Illuminate\Console\Command;
 
 class GetProviderDataCommand extends Command
@@ -36,6 +37,8 @@ class GetProviderDataCommand extends Command
      */
     public function handle()
     {
+        $this->checkDatabase();
+
         $providers = $this->providerService->providersList();
 
         if ($providers == null) {
@@ -59,5 +62,15 @@ class GetProviderDataCommand extends Command
         }
 
         return Command::FAILURE;
+    }
+
+    public function checkDatabase()
+    {
+        try {
+            DatabaseConnectionService::getInstance();
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+            return Command::FAILURE;
+        }
     }
 }
