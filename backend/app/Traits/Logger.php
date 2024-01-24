@@ -10,14 +10,14 @@ trait Logger
     private $loggerAdapter;
 
     /**
-     * @param mixed $loggerAdapter
+     * @param  mixed  $loggerAdapter
      *
      * @throws \InvalidArgumentException
      */
     public function setLoggerAdapter($loggerAdapter): void
     {
-        if (!method_exists($loggerAdapter, 'logError') ||
-            !method_exists($loggerAdapter, 'logInfo')
+        if (! method_exists($loggerAdapter, 'logError') ||
+            ! method_exists($loggerAdapter, 'logInfo')
         ) {
             throw new \InvalidArgumentException(__('Invalid logger adapter provided!'));
         }
