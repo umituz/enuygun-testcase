@@ -30,4 +30,3 @@ class DatabaseConnectionService
         return static::$instance;
     }
 }
-
