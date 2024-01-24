@@ -16,6 +16,6 @@ class TaskObserver
 
     public function created(Task $task)
     {
-        $this->logService->logInfo(__('Task created: ') . $task->id);
+        $this->logService->logInfo(__('Task created: ').$task->id);
     }
 }
