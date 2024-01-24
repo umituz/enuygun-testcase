@@ -14,14 +14,14 @@ class GetProviderDataCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'api:tasks';
+    protected $signature = 'api:tasks {provider? : The identifier of the provider}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetch tasks from specific provider';
+    protected $description = 'Fetch tasks from a specific provider';
 
     private ProviderService $providerService;
 
@@ -39,29 +39,33 @@ class GetProviderDataCommand extends Command
     {
         $this->checkDatabase();
 
-        $providers = $this->providerService->providersList();
+        $providerIdentifier = $this->argument('provider');
 
-        if ($providers == null) {
+        if (!$providerIdentifier) {
+            $providers = $this->providerService->providersList();
+
+            if ($providers == null) {
+                $this->error(__('No providers available.'));
+
+                return Command::FAILURE;
+            }
+
+            $providerIdentifier = $this->anticipate(__('You need to choose a provider before moving...'), $providers);
+        }
+
+        $item = $this->providerService->findBy('identifier', $providerIdentifier);
+
+        if (!$item) {
+            $this->error(__('We could not find that provider.'));
+
             return Command::FAILURE;
         }
 
-        $identifier = $this->anticipate(__('You need to choose provider before moving...'), $providers);
+        GetProviderApiDataJob::dispatch($item);
 
-        $item = $this->providerService->findBy('identifier', $identifier);
+        $this->info(__('Fetching data from the selected provider...'));
 
-        if (! $item) {
-            $this->info(__('We could not find that provider.'));
-
-            return Command::FAILURE;
-        }
-
-        if ($item) {
-            GetProviderApiDataJob::dispatch($item);
-
-            return Command::SUCCESS;
-        }
-
-        return Command::FAILURE;
+        return Command::SUCCESS;
     }
 
     public function checkDatabase()
